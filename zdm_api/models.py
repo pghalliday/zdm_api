@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from django.db import models
 from model_utils.models import TimeStampedModel
 
 
 class Package(TimeStampedModel):
-    pass
+    name = models.CharField(max_length=100, blank=False)
 
 
 class Version(TimeStampedModel):

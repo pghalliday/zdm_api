@@ -42,7 +42,10 @@ setup(
         'zdm_api',
     ],
     include_package_data=True,
-    install_requires=["django-model-utils>=2.0",],
+    install_requires=[
+        'django-model-utils>=2.0',
+        'djangorestframework>=3.4,<3.5',
+    ],
     license="MIT",
     zip_safe=False,
     keywords='zdm_api',

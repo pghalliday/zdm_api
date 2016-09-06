@@ -5,78 +5,13 @@ from . import views
 
 urlpatterns = [
     url(
-        regex="^package/~create/$",
-        view=views.PackageCreateView.as_view(),
-        name='Package_create',
+        regex="^packages/$",
+        view=views.package_list,
+        name='package_list',
     ),
     url(
-        regex="^package/(?P<pk>\d+)/~delete/$",
-        view=views.PackageDeleteView.as_view(),
-        name='Package_delete',
-    ),
-    url(
-        regex="^package/(?P<pk>\d+)/$",
-        view=views.PackageDetailView.as_view(),
-        name='Package_detail',
-    ),
-    url(
-        regex="^package/(?P<pk>\d+)/~update/$",
-        view=views.PackageUpdateView.as_view(),
-        name='Package_update',
-    ),
-    url(
-        regex="^package/$",
-        view=views.PackageListView.as_view(),
-        name='Package_list',
-    ),
-    url(
-        regex="^version/~create/$",
-        view=views.VersionCreateView.as_view(),
-        name='Version_create',
-    ),
-    url(
-        regex="^version/(?P<pk>\d+)/~delete/$",
-        view=views.VersionDeleteView.as_view(),
-        name='Version_delete',
-    ),
-    url(
-        regex="^version/(?P<pk>\d+)/$",
-        view=views.VersionDetailView.as_view(),
-        name='Version_detail',
-    ),
-    url(
-        regex="^version/(?P<pk>\d+)/~update/$",
-        view=views.VersionUpdateView.as_view(),
-        name='Version_update',
-    ),
-    url(
-        regex="^version/$",
-        view=views.VersionListView.as_view(),
-        name='Version_list',
-    ),
-    url(
-        regex="^dependency/~create/$",
-        view=views.DependencyCreateView.as_view(),
-        name='Dependency_create',
-    ),
-    url(
-        regex="^dependency/(?P<pk>\d+)/~delete/$",
-        view=views.DependencyDeleteView.as_view(),
-        name='Dependency_delete',
-    ),
-    url(
-        regex="^dependency/(?P<pk>\d+)/$",
-        view=views.DependencyDetailView.as_view(),
-        name='Dependency_detail',
-    ),
-    url(
-        regex="^dependency/(?P<pk>\d+)/~update/$",
-        view=views.DependencyUpdateView.as_view(),
-        name='Dependency_update',
-    ),
-    url(
-        regex="^dependency/$",
-        view=views.DependencyListView.as_view(),
-        name='Dependency_list',
+        regex="^packages/(?P<pk>\d+)/$",
+        view=views.package_detail,
+        name='package_detail',
     ),
 ]
