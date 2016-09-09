@@ -6,6 +6,7 @@ from model_utils.models import TimeStampedModel
 
 class Package(TimeStampedModel):
     name = models.CharField(max_length=100, blank=False)
+    owner = models.ForeignKey('auth.User', related_name='packages')
 
 
 class Version(TimeStampedModel):
