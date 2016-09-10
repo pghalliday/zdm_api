@@ -22,7 +22,7 @@ Install zdm_api::
 
     pip install zdm_api
 
-Then integrate into a Django project `settings.py` code-block:: python
+Then integrate into a Django project `settings.py` :: python
 
 		INSTALLED_APPS = [
 
@@ -39,7 +39,7 @@ Then integrate into a Django project `settings.py` code-block:: python
 		LOGIN_URL = 'rest_framework:login'
 		LOGOUT_URL = 'rest_framework:logout'
 
-And add to Django project `urls.py` code-block:: python
+And add to Django project `urls.py` :: python
 
 	from django.conf.urls import url, include
 
