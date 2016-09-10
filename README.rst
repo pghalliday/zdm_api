@@ -22,9 +22,34 @@ Install zdm_api::
 
     pip install zdm_api
 
-Then use it in a project::
+Then integrate into a Django project `settings.py`::
 
-    import zdm_api
+		INSTALLED_APPS = [
+
+				...
+
+				'zdm_api',
+				'rest_framework',
+				'rest_framework_swagger',
+		]
+
+		...
+
+		# Authentication settings for swagger
+		LOGIN_URL = 'rest_framework:login'
+		LOGOUT_URL = 'rest_framework:logout'
+
+And add to Django project `urls.py`::
+
+	from django.conf.urls import url, include
+
+	urlpatterns = [
+
+			...
+
+			url(r'^api/', include('zdm_api.urls', namespace='zdm_api')),
+			url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+	]
 
 Features
 --------

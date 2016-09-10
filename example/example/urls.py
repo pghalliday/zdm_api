@@ -19,6 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('zdm_api.urls', namespace='zdm_api')),
-    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include('zdm_api.urls', namespace='zdm_api')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

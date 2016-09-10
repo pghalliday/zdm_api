@@ -6,6 +6,11 @@ from . import views
 
 urlpatterns = [
     url(
+        regex="^schema/",
+        view=views.schema_view,
+        name='schema',
+    ),
+    url(
         regex="^users/$",
         view=views.UserList.as_view(),
         name='user_list',
