@@ -1,39 +1,36 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import (
     Package,
-    Version,
-    Dependency,
 )
 
 
-class UserSerializer(serializers.ModelSerializer):
-    packages = serializers.PrimaryKeyRelatedField(
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    packages = serializers.HyperlinkedRelatedField(
         many=True,
-        queryset=Package.objects.all(),
+        view_name='zdm_api:package-detail',
+        read_only=True
     )
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'packages']
+        fields = ['url', 'pk', 'username', 'packages']
+        extra_kwargs = {
+            'url': {'view_name': 'zdm_api:user-detail'},
+        }
 
 
-class PackageSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+class PackageSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(
+        view_name='zdm_api:user-detail',
+        read_only=True
+    )
 
     class Meta:
         model = Package
-        fields = ['id', 'name', 'owner', 'created', 'modified']
-
-
-class VersionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Version
-        fields = ['id', 'created', 'modified']
-
-
-class DependencySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Dependency
-        fields = ['id', 'created', 'modified']
+        fields = ['url', 'pk', 'name', 'owner', 'created', 'modified']
+        extra_kwargs = {
+            'url': {'view_name': 'zdm_api:package-detail'},
+        }

@@ -122,6 +122,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Authentication settings for swagger
-LOGIN_URL = 'rest_framework:login'
-LOGOUT_URL = 'rest_framework:logout'
+# settings for rest_framework
+REST_FRAMEWORK = {
+  'PAGE_SIZE': 10,
+}
+
+# settings for swagger
+SWAGGER_SETTINGS = {
+  'LOGIN_URL': 'rest_framework:login',
+  'LOGOUT_URL': 'rest_framework:logout',
+}

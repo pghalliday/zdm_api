@@ -33,11 +33,20 @@ Then integrate into a Django project `settings.py`::
 				'rest_framework_swagger',
 		]
 
+    ...
+
+    # settings for rest_framework
+    REST_FRAMEWORK = {
+      'PAGE_SIZE': 10
+    }
+
 		...
 
-		# Authentication settings for swagger
-		LOGIN_URL = 'rest_framework:login'
-		LOGOUT_URL = 'rest_framework:logout'
+		# settings for swagger
+    SWAGGER_SETTINGS = {
+      'LOGIN_URL': 'rest_framework:login'
+      'LOGOUT_URL': 'rest_framework:logout'
+    }
 
 And add to Django project `urls.py`::
 
@@ -50,6 +59,8 @@ And add to Django project `urls.py`::
 			url(r'^api/', include('zdm_api.urls', namespace='zdm_api')),
 			url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	]
+
+Note that the namespace parameters must be as shown but the urls can change.
 
 Features
 --------
