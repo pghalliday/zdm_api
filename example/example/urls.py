@@ -20,4 +20,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('zdm_api.urls', namespace='zdm_api')),
+    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
