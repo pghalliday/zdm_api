@@ -5,31 +5,11 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
-    url(
-        regex="^schema/",
-        view=views.schema_view,
-        name='schema',
-    ),
-    url(
-        regex="^users/$",
-        view=views.UserList.as_view(),
-        name='user_list',
-    ),
-    url(
-        regex="^users/(?P<pk>\d+)/$",
-        view=views.UserDetail.as_view(),
-        name='user_detail',
-    ),
-    url(
-        regex="^packages/$",
-        view=views.PackageList.as_view(),
-        name='package_list',
-    ),
-    url(
-        regex="^packages/(?P<pk>\d+)/$",
-        view=views.PackageDetail.as_view(),
-        name='package_detail',
-    ),
+    url(r'^schema/', views.schema_view),
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>\d+)/$', views.UserDetail.as_view()),
+    url(r'^packages/$', views.PackageList.as_view()),
+    url(r'^packages/(?P<pk>\d+)/$', views.PackageDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
