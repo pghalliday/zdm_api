@@ -10,7 +10,8 @@ class Package(TimeStampedModel):
 
 
 class Version(TimeStampedModel):
-    pass
+    name = models.CharField(max_length=100, blank=False)
+    package = models.ForeignKey('Package', related_name='versions')
 
 
 class Dependency(TimeStampedModel):

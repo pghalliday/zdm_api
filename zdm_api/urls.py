@@ -1,16 +1,28 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include
-from rest_framework.routers import DefaultRouter
+from rest_framework_extensions.routers import ExtendedDefaultRouter
 
 from . import views
 
-router = DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'packages', views.PackageViewSet)
+router = ExtendedDefaultRouter()
+router.register(r'users',
+                views.UserViewSet,
+                base_name='user',
+                ) \
+      .register(r'packages',
+                views.PackageViewSet,
+                base_name='users-package',
+                parents_query_lookups=['package'],
+                ) \
+      .register(r'versions',
+                views.VersionViewSet,
+                base_name='users-packages-versions',
+                parents_query_lookups=['package', 'version'],
+                )
 
 urlpatterns = [
     url(r'^swagger/$', views.swagger_view),
     url(r'^coreapi/$', views.coreapi_view),
     url(r'^openapi/$', views.openapi_view),
-    url(r'^', include(router.urls)),
 ]
+urlpatterns += router.urls

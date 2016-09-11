@@ -45,7 +45,12 @@ setup(
     install_requires=[
         'django-model-utils>=2.0',
         'djangorestframework>=3.4,<3.5',
+        'drf-extensions==0.3.1',
+        'django-rest-swagger>=2.0,<2.1',
         'coreapi>=2.0,<2.1',
+    ],
+    dependency_links=[
+        'git+https://github.com/chibisov/drf-extensions.git@master#egg=drf-extensions-0.3.1',
     ],
     license="MIT",
     zip_safe=False,

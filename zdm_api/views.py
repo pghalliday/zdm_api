@@ -5,14 +5,17 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from .models import (
     Package,
+    Version,
 )
 
 from .serializers import (
     UserSerializer,
     PackageSerializer,
+    VersionSerializer,
 )
 
 
@@ -34,7 +37,7 @@ def coreapi_view(request):
     generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
     return response.Response(generator.get_schema(request=request))
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides 'list' and 'detail' actions.
     """
@@ -42,7 +45,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
 
 
-class PackageViewSet(viewsets.ModelViewSet):
+class PackageViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     """
     This viewset automatically provides 'list', 'create', 'retrieve',
     'update' and 'destroy' actions.
@@ -55,3 +58,15 @@ class PackageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class VersionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    """
+    This viewset automatically provides 'list', 'create', 'retrieve',
+    'update' and 'destroy' actions.
+    """
+    queryset = Version.objects.all()
+    serializer_class = VersionSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+    ]
