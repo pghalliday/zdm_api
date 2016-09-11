@@ -17,6 +17,12 @@ from .serializers import (
 
 
 @api_view()
+@renderer_classes([OpenAPIRenderer])
+def openapi_view(request):
+    generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
+    return response.Response(generator.get_schema(request=request))
+
+@api_view()
 @renderer_classes([SwaggerUIRenderer, OpenAPIRenderer])
 def swagger_view(request):
     generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
@@ -25,9 +31,7 @@ def swagger_view(request):
 @api_view()
 @renderer_classes([renderers.CoreJSONRenderer])
 def coreapi_view(request):
-    generator = schemas.SchemaGenerator(
-	title='Zipped Dependency Manager API',
-    )
+    generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
     return response.Response(generator.get_schema(request=request))
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
