@@ -45,7 +45,9 @@ setup(
     install_requires=[
         'django-model-utils>=2.0',
         'djangorestframework>=3.4,<3.5',
+        'django-rest-swagger>=2.0,<2.1',
         'coreapi>=2.0,<2.1',
+        'semantic_version>=2.5,<2.6',
     ],
     license="MIT",
     zip_safe=False,

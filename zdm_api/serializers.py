@@ -56,6 +56,7 @@ class PackageSerializer(serializers.ModelSerializer):
         fields = [
             'pk',
             'name',
+            'latest',
             'created',
             'modified',
             'versions',

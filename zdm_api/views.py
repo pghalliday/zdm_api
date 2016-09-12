@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from rest_framework import permissions, response, schemas, viewsets, renderers, views, parsers
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view, renderer_classes
@@ -84,23 +85,24 @@ class PublishView(PermissionsMixin, views.APIView):
     ]
 
     def post(self, request, format=None):
-        metadata = json.loads(request.data['metadata'])
-        readme = request.data['readme']
-        archive = request.data['archive']
-        package_name = metadata['name']
-        version_name = metadata['version']
-        dependencies = metadata.get('dependencies', {})
-        (package, created) = Package.objects.get_or_create(
-            name=package_name
-        )
-        version = package.versions.create(
-            name=version_name,
-            readme=readme,
-            archive=archive,
-        )
-        for name, constraint in dependencies.items():
-            dependency = version.dependencies.create(
-                name=name,
-                constraint=constraint,
+        with transaction.atomic():
+            metadata = json.loads(request.data['metadata'])
+            readme = request.data['readme']
+            archive = request.data['archive']
+            package_name = metadata['name']
+            version_name = metadata['version']
+            dependencies = metadata.get('dependencies', {})
+            (package, created) = Package.objects.get_or_create(
+                name=package_name
             )
-        return response.Response('ok')
+            version = package.versions.create(
+                name=version_name,
+                readme=readme,
+                archive=archive,
+            )
+            for name, constraint in dependencies.items():
+                dependency = version.dependencies.create(
+                    name=name,
+                    constraint=constraint,
+                )
+            return response.Response('ok')
