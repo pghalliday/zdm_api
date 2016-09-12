@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include
-from rest_framework.routers import DefaultRouter
+from rest_framework import routers
 
 from . import views
 
-router = DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'packages', views.PackageViewSet)
-
 urlpatterns = [
-    url(r'^swagger/$', views.swagger_view),
-    url(r'^coreapi/$', views.coreapi_view),
-    url(r'^openapi/$', views.openapi_view),
-    url(r'^', include(router.urls)),
+    url(r'^swagger/$', views.swagger_view, name='swagger'),
+    url(r'^coreapi/$', views.coreapi_view, name='coreapi'),
+    url(r'^openapi/$', views.openapi_view, name='openapi'),
+    url(r'^publish/$', views.PublishView.as_view(), name='publish'),
+    url(r'^packages/(?P<package_name>[^/]+)/(?P<version_name>[^/]+)/$', views.VersionView.as_view(), name='version'),
+    url(r'^packages/(?P<package_name>[^/]+)/$', views.PackageViewSet.as_view({'get': 'retrieve'}), name='package'),
+    url(r'^packages/$', views.PackageViewSet.as_view({'get': 'list'}), name='packages'),
+    url(r'^$', views.RootView.as_view()),
 ]
