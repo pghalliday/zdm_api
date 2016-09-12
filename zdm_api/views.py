@@ -60,7 +60,6 @@ class PackageViewSet(PermissionsMixin, viewsets.ViewSet):
 
 
 class VersionView(PermissionsMixin, views.APIView):
-
     def get(self, request, version_name=None, package_name=None, format=None):
         queryset = Version.objects.filter(name=version_name, parent__name=package_name)
         version = get_object_or_404(queryset, name=version_name)
@@ -69,7 +68,6 @@ class VersionView(PermissionsMixin, views.APIView):
 
 
 class RootView(PermissionsMixin, views.APIView):
-
     def get(self, request, format=None):
         return response.Response({
             'packages': reverse('zdm_api:packages', request=request),
