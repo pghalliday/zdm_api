@@ -20,35 +20,35 @@ Quickstart
 
 Install zdm_api::
 
-    pip install zdm_api
+  pip install zdm_api
 
 Note that currently only Django <1.10 is supported due to an incompatibility between Django >= 1.10 and semantic_version 2.5.0 which should be fixed in the next release of semantic_version.
 
 Then integrate into a Django project `settings.py`::
 
-		INSTALLED_APPS = [
-
-				...
-
-				'zdm_api',
-				'rest_framework',
-				'rest_framework_swagger',
-		]
+  INSTALLED_APPS = [
 
     ...
 
-    # settings for rest_framework
-    REST_FRAMEWORK = {
-      'PAGE_SIZE': 10
-    }
+    'zdm_api',
+    'rest_framework',
+    'rest_framework_swagger',
+  ]
 
-		...
+  ...
 
-		# settings for swagger
-    SWAGGER_SETTINGS = {
-      'LOGIN_URL': 'rest_framework:login'
-      'LOGOUT_URL': 'rest_framework:logout'
-    }
+  # settings for rest_framework
+  REST_FRAMEWORK = {
+    'PAGE_SIZE': 10
+  }
+
+  ...
+
+  # settings for swagger
+  SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'rest_framework:login'
+    'LOGOUT_URL': 'rest_framework:logout'
+  }
 
 And add to Django project `urls.py`::
 
