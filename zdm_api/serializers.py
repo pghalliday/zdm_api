@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 from functools import reduce
+from collections import OrderedDict
 
 from .models import (
     Package,
@@ -26,11 +27,12 @@ class PackagesSerializer(serializers.Serializer):
         return packages
 
     def to_representation(self, obj):
-        return reduce(self.reduce_package, obj.values(), {})
+        return reduce(self.reduce_package, obj.order_by('name').values(), OrderedDict())
 
 
 class VersionListingField(serializers.RelatedField):
     def reduce_version(self, versions, value):
+        print(value)
         versions[value['name']] = reverse(
             'zdm_api:version',
             kwargs={
@@ -42,7 +44,7 @@ class VersionListingField(serializers.RelatedField):
         return versions
 
     def to_representation(self, value):
-        return reduce(self.reduce_version, value.values(), {})
+        return reduce(self.reduce_version, value.order_by('-name').values(), OrderedDict())
 
 
 class PackageSerializer(serializers.ModelSerializer):
@@ -65,7 +67,7 @@ class PackageSerializer(serializers.ModelSerializer):
 
 class DependencyListingField(serializers.Field):
     def to_representation(self, value):
-        return reduce(reduce_dependency, value.values(), {})
+        return reduce(reduce_dependency, value.order_by('name').values(), OrderedDict())
 
 
 class VersionSerializer(serializers.ModelSerializer):
