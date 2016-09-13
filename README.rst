@@ -22,6 +22,8 @@ Install zdm_api::
 
     pip install zdm_api
 
+Note that currently only Django <1.10 is supported due to an incompatibility between Django >= 1.10 and semantic_version 2.5.0 which should be fixed in the next release of semantic_version.
+
 Then integrate into a Django project `settings.py`::
 
 		INSTALLED_APPS = [
