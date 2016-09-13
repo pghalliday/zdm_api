@@ -63,7 +63,7 @@ class PackageSerializer(serializers.ModelSerializer):
         ]
 
 
-class DependencyListingField(serializers.RelatedField):
+class DependencyListingField(serializers.Field):
     def to_representation(self, value):
         return reduce(reduce_dependency, value.values(), {})
 

@@ -122,6 +122,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# MEDIA settings for file uploads and downloads
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media/'
+
 # settings for rest_framework
 REST_FRAMEWORK = {
   'PAGE_SIZE': 10,

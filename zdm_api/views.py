@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.db import transaction
-from rest_framework import permissions, response, schemas, viewsets, renderers, views, parsers
+from rest_framework import (
+    permissions,
+    response,
+    schemas,
+    viewsets,
+    renderers,
+    views,
+    parsers,
+)
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
@@ -26,17 +33,20 @@ def openapi_view(request):
     generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
     return response.Response(generator.get_schema(request=request))
 
+
 @api_view()
 @renderer_classes([SwaggerUIRenderer, OpenAPIRenderer])
 def swagger_view(request):
     generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
     return response.Response(generator.get_schema(request=request))
 
+
 @api_view()
 @renderer_classes([renderers.CoreJSONRenderer])
 def coreapi_view(request):
     generator = schemas.SchemaGenerator(title='Zipped Dependency Manager API')
     return response.Response(generator.get_schema(request=request))
+
 
 class PermissionsMixin():
     permission_classes = [
@@ -62,9 +72,16 @@ class PackageViewSet(PermissionsMixin, viewsets.ViewSet):
 
 class VersionView(PermissionsMixin, views.APIView):
     def get(self, request, version_name=None, package_name=None, format=None):
-        queryset = Version.objects.filter(name=version_name, parent__name=package_name)
+        if version_name == 'latest':
+            version_name = Package.objects.get(name=package_name).latest()
+        queryset = Version.objects.filter(
+            name=version_name,
+            parent__name=package_name,
+        )
         version = get_object_or_404(queryset, name=version_name)
-        serializer = VersionSerializer(version)
+        serializer = VersionSerializer(version, context={
+            'request': request,
+        })
         return response.Response(serializer.data)
 
 
@@ -101,7 +118,7 @@ class PublishView(PermissionsMixin, views.APIView):
                 archive=archive,
             )
             for name, constraint in dependencies.items():
-                dependency = version.dependencies.create(
+                version.dependencies.create(
                     name=name,
                     constraint=constraint,
                 )
