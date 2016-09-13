@@ -52,15 +52,15 @@ Then integrate into a Django project `settings.py`::
 
 And add to Django project `urls.py`::
 
-	from django.conf.urls import url, include
+  from django.conf.urls import url, include
 
-	urlpatterns = [
+  urlpatterns = [
 
-			...
+    ...
 
-			url(r'^api/', include('zdm_api.urls', namespace='zdm_api')),
-			url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-	]
+    url(r'^api/', include('zdm_api.urls', namespace='zdm_api')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+  ]
 
 Note that the namespace parameters must be as shown but the urls can change.
 
