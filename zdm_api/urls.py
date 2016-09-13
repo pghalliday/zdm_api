@@ -9,6 +9,11 @@ urlpatterns = [
     url(r'^openapi/$', views.openapi_view, name='openapi'),
     url(r'^publish/$', views.PublishView.as_view(), name='publish'),
     url(
+        r'^packages/(?P<package_name>[^/]+)/latest/$',
+        views.LatestVersionView.as_view(),
+        name='latest-version'
+    ),
+    url(
         r'^packages/(?P<package_name>[^/]+)/(?P<version_name>[^/]+)/$',
         views.VersionView.as_view(),
         name='version'

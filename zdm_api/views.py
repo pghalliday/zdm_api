@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.views.generic.base import RedirectView
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from rest_framework import (
@@ -70,10 +71,28 @@ class PackageViewSet(PermissionsMixin, viewsets.ViewSet):
         return response.Response(serializer.data)
 
 
+class LatestVersionView(PermissionsMixin, RedirectView):
+    permanent = False
+    query_string = True
+    pattern_name = 'zdm_api:version'
+
+    def get_redirect_url(self, *args, **kwargs):
+        version_name = get_object_or_404(
+            Package,
+            name=kwargs['package_name']
+        ).latest()
+        return super(
+            LatestVersionView,
+            self
+        ).get_redirect_url(
+            *args,
+            version_name=version_name,
+            **kwargs
+        )
+
+
 class VersionView(PermissionsMixin, views.APIView):
     def get(self, request, version_name=None, package_name=None, format=None):
-        if version_name == 'latest':
-            version_name = Package.objects.get(name=package_name).latest()
         queryset = Version.objects.filter(
             name=version_name,
             parent__name=package_name,
